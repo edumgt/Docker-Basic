@@ -137,6 +137,8 @@ docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 PS C:\edumgt-java-education\docker-fundamentals> docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 Password: MUYGthXqvJDomV0fGJZ/hYRv1ZySWlUNg5FGBsheJaw=
 
+## root 와 위의 비번 입력
+
 ## 혹시 아래 화면이면 home 클릭
 ![alt text](image-12.png)
 ![alt text](image-13.png)
