@@ -2,16 +2,16 @@
 
 # Docker Fundamentals
 
-## What is covered as part of Docker Fundamentals?
-1. Docker Introduction
-2. Docker Installation
-3. Flow-1: Pull from Docker Hub and Run Docker Image locally.
-4. Flow-2: Build new Docker Image and Run locally and Push to Docker Hub.
-5. Essential Docker Commands
+## Docker Fundamentals에서 다루는 내용
+1. Docker 소개
+2. Docker 설치
+3. 흐름-1: Docker Hub에서 이미지 내려받아 로컬에서 실행
+4. 흐름-2: 새 Docker 이미지 빌드 → 로컬 실행 → Docker Hub에 푸시
+5. 핵심 Docker 명령어
 
-## Docker Images used
-| Application Name                 | Docker Image Name                          |
-| ------------------------------- | --------------------------------------------- |
-|  Nginx  | nginx |
-| Customized Nginx  | stacksimplify/mynginx_image1 |
-| Simple SpringBoot HelloWorld | stacksimplify / dockerintro-springboot-helloworld-rest-api |
+## 사용되는 Docker 이미지
+| 애플리케이션 이름 | Docker 이미지 이름 |
+| --- | --- |
+| Nginx | nginx |
+| 커스텀 Nginx | stacksimplify/mynginx_image1 |
+| 간단한 SpringBoot HelloWorld | stacksimplify/dockerintro-springboot-helloworld-rest-api |

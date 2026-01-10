@@ -1,37 +1,46 @@
-# Flow-1: Pull Docker Image from Docker Hub and Run it
+# 흐름-1: Docker Hub에서 이미지 내려받아 실행
 
-## Step-1: Verify Docker version and also login to Docker Hub
-```
+## 1. Docker 버전 확인 및 Docker Hub 로그인
+```bash
 docker version
 docker login
 ```
 
-## Step-2: Pull Image from Docker Hub
-```
+## 2. Docker Hub에서 이미지 Pull
+```bash
 docker pull stacksimplify/dockerintro-springboot-helloworld-rest-api:1.0.0-RELEASE
 ```
 
-## Step-3: Run the downloaded Docker Image & Access the Application
-- Copy the docker image name from Docker Hub
-```
+## 3. 이미지 실행 및 애플리케이션 접속
+- Docker Hub에서 이미지 이름을 복사해 실행합니다.
+```bash
 docker run --name app1 -p 80:8080 -d stacksimplify/dockerintro-springboot-helloworld-rest-api:1.0.0-RELEASE
 ```
 
-## docker image 목록 보기
-## docker image ls
+### 이미지 목록 확인
+```bash
+docker image ls
+```
 
-## 웹 브라우저에서 실행 - http://localhost/hello
+### 브라우저 접속
+- http://localhost/hello
+
 ![alt text](image.png)
 ![alt text](image-1.png)
 
-# For Mac with Apple Chips (use different application)
-Step-1: Install Docker with Apple Chips binary (https://docs.docker.com/desktop/mac/install/) on your mac machine
+## 참고: Apple Silicon(Mac) 환경
+1. Apple Silicon용 Docker Desktop을 설치합니다.
+   - https://docs.docker.com/desktop/mac/install/
+2. 아래 명령으로 Nginx 컨테이너를 실행합니다.
 
-Step-2: Run the simple Nginx Application container. 
-docker run --name kube1 -p 80:80 --platform linux/amd64 -d  stacksimplify/kubenginx:1.0.0
-http://localhost
+```bash
+docker run --name kube1 -p 80:80 --platform linux/amd64 -d stacksimplify/kubenginx:1.0.0
+```
 
-## Sample Output
+- http://localhost
+
+### 예시 출력
+```text
 kalyanreddy@Kalyans-Mac-mini-2 ~ % docker run --name kube1 -p 80:80 --platform linux/amd64 -d  stacksimplify/kubenginx:1.0.0
 370f238d97556813a4978572d24983d6aaf80d4300828a57f27cda3d3d8f0fec
 kalyanreddy@Kalyans-Mac-mini-2 ~ % curl http://localhost
@@ -43,28 +52,28 @@ kalyanreddy@Kalyans-Mac-mini-2 ~ % curl http://localhost
       <p>Application Version: V1</p>
    </body>
 </html>%
-kalyanreddy@Kalyans-Mac-mini-2 ~ % 
-
+kalyanreddy@Kalyans-Mac-mini-2 ~ %
 ```
 
-## Step-4: List Running Containers
-```
+## 4. 실행 중인 컨테이너 목록 확인
+```bash
 docker ps
 docker ps -a
 docker ps -a -q
 ```
-```
-## 위와 동일하게 Desktop 목록
+
+### Docker Desktop 목록 확인(동일 내용)
 ![alt text](image-2.png)
 
-## Step-5: Connect to Container Terminal
-```
+## 5. 컨테이너 터미널 접속
+```bash
 docker exec -it <container-name> /bin/sh
+```
+
 ![alt text](image-3.png)
-```
-## docker exec -it app1 /bin/sh
-## docker exec -it 300039d4d0f39ce638d9678765d09ab92705c42544b6920f30f5e2c14890cfca /bin/sh
-```
+
+### 예시
+```text
 PS C:\edumgt-java-education\docker-fundamentals> docker exec -it app1 /bin/sh
 / # ls -al
 total 18840
@@ -107,8 +116,8 @@ drwxr-xr-x    2 root     root          4096 May  9  2019 mnt
 drwxr-xr-x    2 root     root          4096 May  9  2019 opt
 dr-xr-xr-x  319 root     root             0 Jun 29 01:31 proc
 drwx------    1 root     root          4096 Jun 29 01:36 root
-drwxr-xr-x    2 root     root          4096 May  9  2019 run
-drwxr-xr-x    2 root     root          4096 May  9  2019 sbin
+drwxr-xr-x    2 root     root          4096 Jun 29 01:31 run
+drwxr-xr-x    2 root     root          4096 Jun 29 01:31 sbin
 drwxr-xr-x    2 root     root          4096 May  9  2019 srv
 dr-xr-xr-x   13 root     root             0 Jun 29 01:31 sys
 drwxrwxrwt    5 root     root          4096 Jun 29 01:31 tmp
@@ -118,26 +127,26 @@ drwxr-xr-x    1 root     root          4096 May  9  2019 var
 PS C:\edumgt-java-education\docker-fundamentals>
 ```
 
-## Step-6: Container Stop, Start 
-```
+## 6. 컨테이너 중지 및 시작
+```bash
 docker stop <container-name>
-docker start  <container-name>
+docker start <container-name>
 ```
 
-## Step-7: Remove Container 
-```
-docker stop <container-name> 
+## 7. 컨테이너 삭제
+```bash
+docker stop <container-name>
 docker rm <container-name>
 ```
 
-## Step-8: Remove Image
-```
+## 8. 이미지 삭제
+```bash
 docker images
-docker rmi  <image-id>
+docker rmi <image-id>
 ```
 
-## docker 실행 상태
+## Docker Desktop에서 상태 확인
 ![alt text](image-4.png)
-## : 클릭 -> detail 뷰 클릭
-![alt text](image-5.png)
+- `:` 클릭 → 상세 뷰 클릭
 
+![alt text](image-5.png)
