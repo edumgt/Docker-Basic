@@ -1,5 +1,3 @@
-## 0630 수업
-
 # Docker Fundamentals
 
 ## Docker Fundamentals에서 다루는 내용
