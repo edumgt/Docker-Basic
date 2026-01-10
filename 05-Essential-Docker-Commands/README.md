@@ -1,27 +1,25 @@
-## vscode pdf 뷰어 설치
+## VS Code PDF 뷰어 설치
 ![alt text](image.png)
 
-# Docker - Essential Commands
-- The below are the list of essential commands we are in need 
+# Docker - 핵심 명령어
+- 아래는 자주 사용하는 핵심 명령어 목록입니다.
 
-|     Commands                 |    Description                                  |
-| ------------------------------- | --------------------------------------------- |
-| docker ps | List all running containers |
-| docker ps -a | List all containers stopped, running |
-| docker stop container-id | Stop the container which is running |
-| docker start container-id | Start the container which is stopped |
-| docker restart container-id | Restart the container which is running |
-| docker port container-id | List port mappings of a specific container |
-| docker rm container-id or name | Remove the stopped container |
-| docker rm -f container-id or name| Remove the running container forcefully |
-| docker pull image-info | Pull the image from docker hub repository |
-| docker pull stacksimplify/springboot-helloworld-rest-api:2.0.0-RELEASE | Pull the image from docker hub repository |
-| docker exec -it container-name /bin/sh | Connect to linux container and execute commands in container |
-| docker rmi image-id | Remove the docker image |
-| docker logout | Logout from docker hub |
-| docker login -u username -p password | Login to docker hub |
-| docker stats | Display a live stream of container(s) resource usage statistics |
-| docker top container-id or name | Display the running processes of a container |
-| docker version | Show the Docker version information |
-
-
+| 명령어 | 설명 |
+| --- | --- |
+| docker ps | 실행 중인 컨테이너 목록 보기 |
+| docker ps -a | 중지/실행 중인 전체 컨테이너 목록 보기 |
+| docker stop container-id | 실행 중인 컨테이너 중지 |
+| docker start container-id | 중지된 컨테이너 시작 |
+| docker restart container-id | 실행 중인 컨테이너 재시작 |
+| docker port container-id | 특정 컨테이너의 포트 매핑 확인 |
+| docker rm container-id or name | 중지된 컨테이너 삭제 |
+| docker rm -f container-id or name | 실행 중인 컨테이너 강제 삭제 |
+| docker pull image-info | Docker Hub에서 이미지 Pull |
+| docker pull stacksimplify/springboot-helloworld-rest-api:2.0.0-RELEASE | Docker Hub에서 이미지 Pull(예시) |
+| docker exec -it container-name /bin/sh | 컨테이너에 접속해 명령 실행 |
+| docker rmi image-id | Docker 이미지 삭제 |
+| docker logout | Docker Hub 로그아웃 |
+| docker login -u username -p password | Docker Hub 로그인 |
+| docker stats | 컨테이너 리소스 사용량 실시간 확인 |
+| docker top container-id or name | 컨테이너에서 실행 중인 프로세스 확인 |
+| docker version | Docker 버전 정보 확인 |
