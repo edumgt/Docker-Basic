@@ -1,0 +1,5 @@
+FROM sonarqube:community
+
+ENV SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+
+EXPOSE 9000
