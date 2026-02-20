@@ -1,5 +1,7 @@
 # Docker Fundamentals
 
+## StackSimplify 의 Docker 교육 Repo 를 복제하여 빌드업한 Docker 교육용 Repo 입니다.
+
 ## Docker Fundamentals에서 다루는 내용
 1. Docker 소개
 2. Docker 설치
