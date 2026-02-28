@@ -15,6 +15,7 @@
 8. SonarQube 온프레미스 구축
 9. Nexus Repository 온프레미스 구축
 10. Drone CI 온프레미스 구축
+11. 통합 DevSecOps Lab (Keycloak/Vault/Trivy/Observability/Traefik/Harbor profile)
 
 ---
 
