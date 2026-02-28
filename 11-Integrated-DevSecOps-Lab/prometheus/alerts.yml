@@ -1,0 +1,11 @@
+groups:
+  - name: container.rules
+    rules:
+      - alert: PrometheusTargetDown
+        expr: up == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Prometheus target down"
+          description: "{{ $labels.instance }} target is unreachable for 2 minutes."
