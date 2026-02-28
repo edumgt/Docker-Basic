@@ -1,4 +1,4 @@
-# Docker Fundamentals
+# Docker Fundamentals 
 
 ## StackSimplify 의 Docker 교육 Repo 를 복제하여 빌드업한 Docker 교육용 Repo 입니다.
 
