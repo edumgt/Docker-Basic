@@ -151,9 +151,7 @@ docker run --detach \
   --name gitlab \
   --restart always \
   --volume $PWD/gitlab/config:/etc/gitlab \
-  --volume $PWD/gitlab/logs:/var/log/gitlab \
-  --volume $PWD/gitlab/data:/var/opt/gitlab \
-  0ff5c87470e5033e77c6af20613d2ad050ed7155718ee35bc013196f1621dba5
+  --volume $PWD/gitlab/logs:/var/log/gitlab bca55c881d82
 ```
 
 - 컨테이너 실행에는 5분 이상 걸릴 수 있습니다.
