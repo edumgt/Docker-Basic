@@ -127,3 +127,6 @@ GitLab 프로젝트 `test-gitlab`에서:
 1. `test-gitlab.git`에 `index.html` 수정 후 push
 2. Jenkins Job 자동 실행 확인
 3. 배포 결과 확인: `http://localhost:8082`
+
+### git lab 연동 시 plugin 확인
+![](./1.png)
