@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jenkins Install Logs (SSE)</title>
+  <style>
+    body { font-family: monospace; margin: 0; padding: 16px; background: #111; color: #ddd; }
+    h1 { margin: 0 0 12px; font-size: 18px; }
+    #status { margin-bottom: 8px; color: #9ad; }
+    #log { white-space: pre-wrap; line-height: 1.4; border: 1px solid #444; border-radius: 6px; padding: 12px; height: 78vh; overflow: auto; background: #000; }
+  </style>
+</head>
+<body>
+  <h1>Jenkins Install Logs (SSE)</h1>
+  <div id="status">Connecting to /sse/events ...</div>
+  <div id="log"></div>
+
+  <script>
+    const logEl = document.getElementById('log');
+    const statusEl = document.getElementById('status');
+    const es = new EventSource('/sse/events');
+
+    es.onopen = () => { statusEl.textContent = 'Connected'; };
+    es.onmessage = (evt) => {
+      logEl.textContent += evt.data + '\n';
+      logEl.scrollTop = logEl.scrollHeight;
+    };
+    es.onerror = () => { statusEl.textContent = 'Disconnected. Retrying...'; };
+  </script>
+</body>
+</html>

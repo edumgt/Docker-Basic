@@ -26,6 +26,13 @@ docker desktop stop
 docker desktop logs
 ```
 ---
+```
+# Docker Desktop 관련 프로세스 종료
+Get-Process "*docker*" -ErrorAction SilentlyContinue | Stop-Process -Force
+
+# Docker Desktop UI 다시 실행
+Start-Process "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+```
 
 3. 흐름-1: Docker Hub에서 이미지 내려받아 로컬에서 실행
 4. 흐름-2: 새 Docker 이미지 빌드 → 로컬 실행 → Docker Hub에 푸시
