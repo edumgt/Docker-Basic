@@ -26,7 +26,7 @@ docker desktop stop
 docker desktop logs
 ```
 ---
-```
+```Powershell
 # Docker Desktop 관련 프로세스 종료
 Get-Process "*docker*" -ErrorAction SilentlyContinue | Stop-Process -Force
 
