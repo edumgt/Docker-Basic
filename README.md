@@ -7,6 +7,26 @@
 ## Docker Fundamentals에서 다루는 내용
 1. Docker 소개
 2. Docker 설치
+
+---
+```
+# 1) Docker Desktop 상태 확인 (4.37+)
+docker desktop status
+
+# 2) 시작
+docker desktop start
+
+# 3) 재시작
+docker desktop restart
+
+# 4) 중지
+docker desktop stop
+
+# 5) 로그 보기
+docker desktop logs
+```
+---
+
 3. 흐름-1: Docker Hub에서 이미지 내려받아 로컬에서 실행
 4. 흐름-2: 새 Docker 이미지 빌드 → 로컬 실행 → Docker Hub에 푸시
 5. 핵심 Docker 명령어
