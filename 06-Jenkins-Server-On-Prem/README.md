@@ -72,6 +72,62 @@ docker exec jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword
 - 플러그인 버전은 주기적으로 검증 후 고정 관리
 - 운영 환경에서는 리버스 프록시(Nginx) + TLS 적용 권장
 
+## On-Prem 환경의 CI/CD
+
+`On-prem 환경의 CI/CD`는 회사 내부 서버나 자체 데이터센터에 직접 구축해서 사용하는 CI/CD를 의미합니다.
+
+즉, 코드의 빌드, 테스트, 배포를 `AWS`, `GitHub Cloud` 같은 외부 클라우드 서비스가 아니라 회사 내부 인프라에서 처리하는 방식입니다.
+
+쉽게 구분하면 다음과 같습니다.
+
+- `Cloud CI/CD`: 외부 서비스 기반으로 빌드/테스트/배포 자동화
+- `On-prem CI/CD`: 회사 내부 서버에 직접 설치해서 빌드/테스트/배포 자동화
+
+### 왜 On-Prem 환경을 사용하는가
+- 보안 정책상 소스코드와 산출물이 외부로 나가면 안 되는 경우
+- 금융, 공공, 제조, 대기업처럼 내부망 중심으로 운영하는 경우
+- 배포 대상 서버가 외부 인터넷과 분리된 내부망에 있는 경우
+- 인프라와 권한을 조직이 직접 통제해야 하는 경우
+
+### 대표적인 On-Prem CI/CD 도구
+- `Jenkins`
+- `GitLab CI/CD`
+- `TeamCity`
+- `Bamboo`
+- `Argo CD`
+- `SonarQube` 같은 품질/정적분석 도구와 연계
+
+### On-Prem CI/CD 기본 흐름
+1. 개발자가 Git 저장소에 코드를 Push
+2. 사내 CI 서버가 소스코드를 Checkout
+3. Build 수행
+4. Test 수행
+5. Docker Image 생성
+6. 사내 Registry에 Image Push
+7. 운영 서버 또는 Kubernetes 환경에 배포
+
+### Docker/Kubernetes 관점 예시
+1. 개발자가 GitLab 또는 Bitbucket에 코드 Push
+2. Jenkins 또는 GitLab Runner가 파이프라인 실행
+3. 애플리케이션 Build 및 Test 수행
+4. Docker Image 생성
+5. Private Docker Registry에 Push
+6. 내부 Kubernetes Cluster 또는 운영 서버에 배포
+
+### 장점
+- 보안 통제가 강함
+- 내부 시스템과 연동하기 쉬움
+- 네트워크와 데이터 위치를 직접 관리할 수 있음
+- 규제 대응과 감사 추적에 유리함
+
+### 단점
+- 구축과 운영 비용이 큼
+- 서버, 스토리지, 인증서, 백업, 업그레이드를 직접 관리해야 함
+- 장애 대응과 복구 체계도 직접 준비해야 함
+
+### 면접 또는 발표용 한 줄 설명
+> On-prem 환경의 CI/CD는 클라우드 서비스 대신 회사 내부 서버에 CI/CD 도구를 직접 구축하여 빌드, 테스트, 배포를 자동화하는 방식입니다.
+
 ## GitLab Push -> Jenkins Trigger -> Docker Nginx 배포 구성
 
 목표:
