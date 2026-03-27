@@ -14,8 +14,9 @@
 ## 실습
 ### Lab) Hello API 이미지 만들기(예: Node)
 1) `../_shared-advanced-core/templates/Dockerfile.node` 참고하여 Dockerfile 작성
-2) `docker build -t hello-api:dev .`
-3) `docker run --rm -p 3000:3000 hello-api:dev`
+2) 주의: 템플릿 폴더에서 바로 빌드하지 말고, `package.json` 이 있는 Node 앱 루트에서 빌드
+3) `docker build -t hello-api:dev .`
+4) `docker run --rm -p 3000:3000 hello-api:dev`
 
 ### 체크 포인트
 - `docker image ls`에서 용량 확인

@@ -1,11 +1,15 @@
 # templates/Dockerfile.node (예시)
 # 멀티스테이지 빌드(빌드/런타임 분리)
+# 전제: 이 파일은 package.json 이 있는 Node 애플리케이션 루트에 복사해서 사용한다.
+# templates 폴더 자체를 build context 로 사용하면 package*.json 이 없어 실패할 수 있다.
+# 참고: Playwright처럼 브라우저 바이너리가 필요한 앱은 이 템플릿보다
+# mcr.microsoft.com/playwright 기반 전용 Dockerfile을 사용하는 편이 안전하다.
 FROM node:20-alpine AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
 COPY . .
-RUN npm run build
+RUN npm run build --if-present
 
 FROM node:20-alpine AS runtime
 WORKDIR /app

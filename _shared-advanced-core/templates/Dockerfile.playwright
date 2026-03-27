@@ -1,0 +1,15 @@
+# templates/Dockerfile.playwright (예시)
+# Playwright 브라우저와 시스템 의존성이 포함된 공식 이미지를 사용한다.
+# 전제: package.json, package-lock.json, Playwright 스크립트가 있는 앱 루트에서 사용한다.
+FROM mcr.microsoft.com/playwright:v1.52.0-noble
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+COPY . .
+
+RUN npm run build --if-present
+
+CMD ["npm", "run", "start"]
