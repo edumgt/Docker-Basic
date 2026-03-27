@@ -18,6 +18,42 @@
 - api: `docker run -d --name api --network appnet -e DB_HOST=db <your-api-image>`
 - 컨테이너 내부에서 `ping db` 또는 TCP 연결 확인
 
+### Lab) Compose로 Postgres + FastAPI 구성
+- `docker compose up --build -d`
+- DB 컨테이너는 `POSTGRES_DB=app`, `POSTGRES_USER=app`, `POSTGRES_PASSWORD=app1234` 로 초기화
+- API 컨테이너는 시작 시 `orders`, `deliveries` 테이블을 자동 생성
+- Swagger UI: `http://localhost:8000/docs`
+- OpenAPI JSON: `http://localhost:8000/openapi.json`
+- 주문 생성:
+
+```bash
+curl -X POST http://localhost:8000/orders \
+  -H "Content-Type: application/json" \
+  -d '{"customer_name":"Alice","product_name":"Docker Handbook","quantity":2}'
+```
+
+- 배송 요청 생성:
+
+```bash
+curl -X POST http://localhost:8000/orders/1/delivery-request \
+  -H "Content-Type: application/json" \
+  -d '{"address":"Seoul, Gangnam-gu"}'
+```
+
+- 배송 완료 처리:
+
+```bash
+curl -X PATCH http://localhost:8000/deliveries/1/complete
+```
+
+- 상태 확인:
+
+```bash
+curl http://localhost:8000/health
+docker exec db psql -U app -d app -c "SELECT id, customer_name, product_name, status FROM orders;"
+docker exec db psql -U app -d app -c "SELECT id, order_id, address, status FROM deliveries;"
+```
+
 
 ## 과제
 - 과제: 외부 노출 포트 최소화 설계안(그림/설명) 작성
@@ -52,3 +88,24 @@
 1. 같은 실습을 "수동 명령"과 "compose 자동화" 두 방식으로 재작성
 2. `Makefile` 또는 셸 스크립트로 start/stop/log/clean 명령 래핑
 3. 팀 기준 runbook(장애 조치 절차) 1페이지 작성
+
+
+---
+```
+```mermaid
+flowchart TD
+    A[주문 요청 접수] --> B[주문 정보 검증]
+    B --> C[주문 테이블에 데이터 입력]
+    C --> D[주문 생성 완료]
+
+    D --> E[배송 요청 생성]
+    E --> F[배송 테이블에 데이터 입력]
+    F --> G[배송 준비]
+    G --> H[배송 중]
+    H --> I[배송 완료 처리]
+    I --> J[주문 상태 완료로 변경]
+
+    C --> K[(orders 테이블)]
+    F --> L[(deliveries 테이블)]
+
+```
