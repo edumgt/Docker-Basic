@@ -22,6 +22,7 @@
 - `docker compose up --build -d`
 - DB 컨테이너는 `POSTGRES_DB=app`, `POSTGRES_USER=app`, `POSTGRES_PASSWORD=app1234` 로 초기화
 - API 컨테이너는 시작 시 `orders`, `deliveries` 테이블을 자동 생성
+- 프런트엔드 대시보드: `http://localhost:8000/`
 - Swagger UI: `http://localhost:8000/docs`
 - OpenAPI JSON: `http://localhost:8000/openapi.json`
 - 주문 생성:

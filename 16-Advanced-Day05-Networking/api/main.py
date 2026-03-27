@@ -2,9 +2,12 @@ import os
 import time
 from contextlib import asynccontextmanager
 from enum import Enum
+from pathlib import Path as FilePath
 
 import psycopg
 from fastapi import FastAPI, HTTPException, Path
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 
@@ -13,6 +16,7 @@ DB_PORT = int(os.getenv("DB_PORT", "5432"))
 DB_NAME = os.getenv("DB_NAME", "app")
 DB_USER = os.getenv("DB_USER", "app")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "app1234")
+STATIC_DIR = FilePath(__file__).parent / "static"
 
 
 def get_conninfo() -> str:
@@ -60,6 +64,28 @@ class DeliveryResponse(BaseModel):
     status: DeliveryStatus
     requested_at: str
     delivered_at: str | None
+
+
+def to_order_response(row: tuple) -> OrderResponse:
+    return OrderResponse(
+        id=row[0],
+        customer_name=row[1],
+        product_name=row[2],
+        quantity=row[3],
+        status=row[4],
+        created_at=row[5].isoformat(),
+    )
+
+
+def to_delivery_response(row: tuple) -> DeliveryResponse:
+    return DeliveryResponse(
+        id=row[0],
+        order_id=row[1],
+        address=row[2],
+        status=row[3],
+        requested_at=row[4].isoformat(),
+        delivered_at=row[5].isoformat() if row[5] else None,
+    )
 
 
 def init_db() -> None:
@@ -115,11 +141,38 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan,
 )
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+
+@app.get("/", include_in_schema=False)
+def index() -> FileResponse:
+    return FileResponse(STATIC_DIR / "index.html")
 
 
 @app.get("/health", tags=["system"], summary="서비스 상태 확인")
 def health() -> dict[str, str]:
     return {"status": "ok"}
+
+
+@app.get(
+    "/orders",
+    tags=["orders"],
+    summary="주문 목록 조회",
+    response_model=list[OrderResponse],
+)
+def list_orders() -> list[OrderResponse]:
+    with psycopg.connect(get_conninfo()) as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT id, customer_name, product_name, quantity, status, created_at
+                FROM orders
+                ORDER BY id DESC
+                """
+            )
+            rows = cur.fetchall()
+
+    return [to_order_response(row) for row in rows]
 
 
 @app.post(
@@ -143,14 +196,28 @@ def create_order(payload: OrderCreate) -> OrderResponse:
             row = cur.fetchone()
         conn.commit()
 
-    return OrderResponse(
-        id=row[0],
-        customer_name=row[1],
-        product_name=row[2],
-        quantity=row[3],
-        status=row[4],
-        created_at=row[5].isoformat(),
-    )
+    return to_order_response(row)
+
+
+@app.get(
+    "/deliveries",
+    tags=["deliveries"],
+    summary="배송 목록 조회",
+    response_model=list[DeliveryResponse],
+)
+def list_deliveries() -> list[DeliveryResponse]:
+    with psycopg.connect(get_conninfo()) as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT id, order_id, address, status, requested_at, delivered_at
+                FROM deliveries
+                ORDER BY id DESC
+                """
+            )
+            rows = cur.fetchall()
+
+    return [to_delivery_response(row) for row in rows]
 
 
 @app.post(
@@ -191,14 +258,7 @@ def request_delivery(
             row = cur.fetchone()
         conn.commit()
 
-    return DeliveryResponse(
-        id=row[0],
-        order_id=row[1],
-        address=row[2],
-        status=row[3],
-        requested_at=row[4].isoformat(),
-        delivered_at=row[5].isoformat() if row[5] else None,
-    )
+    return to_delivery_response(row)
 
 
 @app.patch(
@@ -235,14 +295,7 @@ def complete_delivery(
             )
         conn.commit()
 
-    return DeliveryResponse(
-        id=row[0],
-        order_id=row[1],
-        address=row[2],
-        status=row[3],
-        requested_at=row[4].isoformat(),
-        delivered_at=row[5].isoformat() if row[5] else None,
-    )
+    return to_delivery_response(row)
 
 
 @app.get(
@@ -266,11 +319,4 @@ def get_order(order_id: int = Path(..., ge=1, description="조회할 주문 ID")
             if row is None:
                 raise HTTPException(status_code=404, detail="Order not found")
 
-    return OrderResponse(
-        id=row[0],
-        customer_name=row[1],
-        product_name=row[2],
-        quantity=row[3],
-        status=row[4],
-        created_at=row[5].isoformat(),
-    )
+    return to_order_response(row)
